@@ -79,7 +79,7 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", likes=" + likes +
-                ", user=" + user +
+
                 '}';
     }
 }

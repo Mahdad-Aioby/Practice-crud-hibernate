@@ -9,5 +9,8 @@
         <module name="instagram" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="instagram" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

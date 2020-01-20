@@ -25,7 +25,7 @@ public class User {
     @Column(name = "lastName",nullable = false,length = 100)
     private String lastName;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany
@@ -136,9 +136,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", posts=" + posts +
-                ", followers=" + followers +
-                ", following=" + following +
                 '}';
     }
 }

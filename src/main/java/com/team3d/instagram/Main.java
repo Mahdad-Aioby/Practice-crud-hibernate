@@ -2,13 +2,18 @@ package com.team3d.instagram;
 
 import com.team3d.instagram.Core.Shared.AuthenticationService;
 import com.team3d.instagram.Core.util.UserBuilder;
-import com.team3d.instagram.Domain.Services.Login;
-import com.team3d.instagram.Domain.Services.Register;
+import com.team3d.instagram.Domain.ServiceImplementation.ShowAccountsPosts;
+import com.team3d.instagram.Domain.Services.*;
 import com.team3d.instagram.Persistent.DbContext.HibernateUtil;
+import com.team3d.instagram.Persistent.Models.Post;
 import com.team3d.instagram.Persistent.Models.User;
+import com.team3d.instagram.Persistent.Models.UserInfo;
 import org.hibernate.Session;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
@@ -70,9 +75,99 @@ public class Main {
                 System.out.println("6.show posts");
                 System.out.println("7.delete post");
                 System.out.println("8.search account");
+                System.out.println("9.show users posts:");
+                System.out.println("10.follow someone:");
                 System.out.println("9.logout");
                 int choose = input.nextInt();
+                switch(choose){
+                    case 1:{
+                        ShowProfile showProfile = new com.team3d.instagram.Domain.ServiceImplementation.ShowProfile();
+                        showProfile.ShowProfile();
+                        break;
+                    }
+                    case 2:{
+                        EditProfile editProfile = new com.team3d.instagram.Domain.ServiceImplementation.EditProfile();
+                        editProfile.edit();
+                        break;
+                    }
+                    case 3:{
+                        DeleteProfile deleteProfile = new com.team3d.instagram.Domain.ServiceImplementation.DeleteProfile();
+                        deleteProfile.delete();
+                        break;
+                    }
+                    case 4:{
+                        System.out.println("Enter post title:");
+                        String title = input.next();
+                        System.out.println("Enter post Content:");
+                        String content = input.next();
+                        Long uid = AuthenticationService.getInstance().getLoginUser().getId();
+                        Post post = new Post();
+                        post.setContent(content);
+                        post.setTitle(title);
+                        AddPost addPost = new com.team3d.instagram.Domain.ServiceImplementation.AddPost();
+                        addPost.add(post);
+                        break;
+                    }
+                    case 5:{
+                        System.out.println("Enter post title:");
+                        String uTitle = input.next();
+                        System.out.println("Enter post Content:");
+                        String uContent = input.next();
+                        Long uid = AuthenticationService.getInstance().getLoginUser().getId();
+                        Post post = new Post();
+                        post.setContent(uContent);
+                        post.setTitle(uTitle);
+                        EditPost editPost = new com.team3d.instagram.Domain.ServiceImplementation.EditPost();
+                        editPost.edit(post);
+                        break;
+                    }
+                    case 6:{
+                        ShowPost showPost = new com.team3d.instagram.Domain.ServiceImplementation.ShowPost();
+                        showPost.show().stream().forEach(System.out::println);
+                        break;
+                    }
+                    case 7:{
+                        ShowPost showPost = new com.team3d.instagram.Domain.ServiceImplementation.ShowPost();
+                        showPost.show().stream().forEach(System.out::println);
+                        System.out.println("Enter id to delete:");
+                        Long pid = input.nextLong();
+                        DeletePost deletePost = new com.team3d.instagram.Domain.ServiceImplementation.DeletePost();
+                        deletePost.Delete(pid);
+                        break;
+                    }
+                    case 8:{
+                        System.out.println("Enter search field:");
+                        String field = input.next();
+                        System.out.println("Enter search subject:");
+                        String subject = input.next();
+                        SearchAccount searchAccount = new com.team3d.instagram.Domain.ServiceImplementation.SearchAccount();
+                        UserInfo userInfo = new UserInfo();
+                        Function<User,UserInfo> infoFunction = user -> {
+                            userInfo.setFirstName(user.getFirstName());
+                            userInfo.setLastName(user.getLastName());
+                            userInfo.setUserName(user.getUsername());
+                            return userInfo;
+                        };
+                        List<User> users = searchAccount.search(field,subject);
+                        users.stream().map(infoFunction).forEach(System.out::println);
+                        break;
+                    }
+                    case 9:{
+                        System.out.println("Enter user id:");
+                        Long id = input.nextLong();
+                        ShowAccountPosts showAccountPosts = new ShowAccountsPosts();
+                        showAccountPosts.accountPost(id).stream().forEach(System.out::println);
+                        break;
+                    }
+                    case 10:{
+                        System.out.println("Enter User id:");
+                        Long id = input.nextLong();
+                        FollowAUser followAUser = new com.team3d.instagram.Domain.ServiceImplementation.FollowAUser();
+                        followAUser.follow(id);
+                        break;
+                    }
 
+                }
             }
         }
     }

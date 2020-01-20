@@ -1,6 +1,10 @@
 package com.team3d.instagram.Persistent.Models;
 
+import org.hibernate.loader.collection.OneToManyJoinWalker;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,7 +24,11 @@ public class Post {
     private Long likes;
 
     @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
     private User user;
+
+
+
 
     public Post(String title, String content, Long likes, User user) {
         this.title = title;
@@ -31,6 +39,7 @@ public class Post {
 
     public Post() {
     }
+
 
     public Long getId() {
         return id;

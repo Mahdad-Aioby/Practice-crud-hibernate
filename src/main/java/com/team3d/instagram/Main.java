@@ -75,8 +75,9 @@ public class Main {
                 System.out.println("6.show posts");
                 System.out.println("7.delete post");
                 System.out.println("8.search account");
-                System.out.println("9.show users posts:");
-                System.out.println("10.follow someone:");
+                System.out.println("9.show users posts");
+                System.out.println("10.follow someone");
+                System.out.println("11.unFollow someone");
                 System.out.println("9.logout");
                 int choose = input.nextInt();
                 switch(choose){
@@ -100,10 +101,11 @@ public class Main {
                         String title = input.next();
                         System.out.println("Enter post Content:");
                         String content = input.next();
-                        Long uid = AuthenticationService.getInstance().getLoginUser().getId();
+
                         Post post = new Post();
                         post.setContent(content);
                         post.setTitle(title);
+                        post.setUser(AuthenticationService.getInstance().getLoginUser());
                         AddPost addPost = new com.team3d.instagram.Domain.ServiceImplementation.AddPost();
                         addPost.add(post);
                         break;
@@ -164,6 +166,13 @@ public class Main {
                         Long id = input.nextLong();
                         FollowAUser followAUser = new com.team3d.instagram.Domain.ServiceImplementation.FollowAUser();
                         followAUser.follow(id);
+                        break;
+                    }
+                    case 11:{
+                        System.out.println("Enter user id:");
+                        Long uid = input.nextLong();
+                        UnFollow unFollow = new com.team3d.instagram.Domain.ServiceImplementation.UnFollow();
+                        unFollow.unFollow(uid);
                         break;
                     }
 

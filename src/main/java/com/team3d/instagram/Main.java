@@ -78,6 +78,7 @@ public class Main {
                 System.out.println("9.show users posts");
                 System.out.println("10.follow someone");
                 System.out.println("11.unFollow someone");
+                System.out.println("12.show all posts");
                 System.out.println("9.logout");
                 int choose = input.nextInt();
                 switch(choose){
@@ -173,6 +174,21 @@ public class Main {
                         Long uid = input.nextLong();
                         UnFollow unFollow = new com.team3d.instagram.Domain.ServiceImplementation.UnFollow();
                         unFollow.unFollow(uid);
+                        break;
+                    }
+                    case 12:{
+                        ShowAllPosts showAllPosts = new com.team3d.instagram.Domain.ServiceImplementation.ShowAllPosts();
+                        showAllPosts.getAllPosts().stream().forEach(System.out::println);
+                        System.out.println("press 1 to like.if you want!");
+                        int x = input.nextInt();
+                        if(x==1) {
+                            System.out.println("Enter post id:");
+                            Long pid = input.nextLong();
+                            LikePost likePost = new com.team3d.instagram.Domain.ServiceImplementation.LikePost();
+                            likePost.Like(pid);
+                            System.out.println("liked");
+                        }
+
                         break;
                     }
 

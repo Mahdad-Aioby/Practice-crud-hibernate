@@ -4,7 +4,9 @@ import org.hibernate.loader.collection.OneToManyJoinWalker;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -26,9 +28,11 @@ public class Post {
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
-
-
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "liked_posts",
+            joinColumns = { @JoinColumn(name = "pid") },
+            inverseJoinColumns = { @JoinColumn(name = "uid") })
+    private List<User> users = new ArrayList<>();
 
     public Post(String title, String content, Long likes, User user) {
         this.title = title;
@@ -40,6 +44,13 @@ public class Post {
     public Post() {
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     public Long getId() {
         return id;

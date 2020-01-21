@@ -1,5 +1,6 @@
 package com.team3d.instagram.Persistent.Models;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,22 @@ public class User {
     )
     private List<User> following = new ArrayList<>();
 
+
+    public List<Post> getPostsILiked() {
+        return postsILiked;
+    }
+
+    public void setPostsILiked(List<Post> postsILiked) {
+        this.postsILiked = postsILiked;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "liked_posts",
+            joinColumns = { @JoinColumn(name = "uid") },
+            inverseJoinColumns = { @JoinColumn(name = "pid") }
+    )
+    private List<Post> postsILiked = new ArrayList<>();
 
     public User(String username, String password, String email, String firstName, String lastName) {
         this.username = username;

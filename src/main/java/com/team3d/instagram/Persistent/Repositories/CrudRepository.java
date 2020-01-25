@@ -70,19 +70,19 @@ public abstract class CrudRepository<Entity, ID extends Serializable> {
         return entities;
     }
 
-    public List<Entity> findAll(Predicate<Entity> entityPredicate){
-        List<Entity> entities = findAll();
-        List<Entity> entityList= entities.stream().filter(entityPredicate).collect(Collectors.toList());
-
-        return entityList;
-
-    }
-
-    public <T> List<T> findAll(Function<Entity,T> entityFunction){
-
-       List<T> entities = findAll().stream().map(entityFunction).collect(Collectors.toList());
-       return entities;
-    }
+//    public List<Entity> findAll(Predicate<Entity> entityPredicate){
+//        List<Entity> entities = findAll();
+//        List<Entity> entityList= entities.stream().filter(entityPredicate).collect(Collectors.toList());
+//
+//        return entityList;
+//
+//    }
+//
+//    public <T> List<T> findAll(Function<Entity,T> entityFunction){
+//
+//       List<T> entities = findAll().stream().map(entityFunction).collect(Collectors.toList());
+//       return entities;
+//    }
 
     private Session getSession() {
         return HibernateUtil.getSession();

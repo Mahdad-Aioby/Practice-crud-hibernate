@@ -10,6 +10,7 @@ import com.team3d.instagram.Persistent.Models.Comment;
 import com.team3d.instagram.Persistent.Models.Post;
 import com.team3d.instagram.Persistent.Models.User;
 import com.team3d.instagram.Persistent.Models.UserInfo;
+import com.team3d.instagram.Persistent.Repositories.CrudRepository;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
+
         Session session = HibernateUtil.getSession();
         Scanner input = new Scanner(System.in);
 

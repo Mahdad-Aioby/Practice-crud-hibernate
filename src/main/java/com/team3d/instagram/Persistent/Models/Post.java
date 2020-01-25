@@ -10,7 +10,7 @@ import java.util.Set;
 
 
 @Entity
-public class Post {
+public class Post implements Comparable<Post> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +33,23 @@ public class Post {
             joinColumns = { @JoinColumn(name = "pid") },
             inverseJoinColumns = { @JoinColumn(name = "uid") })
     private List<User> users = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "post_comment",
+            joinColumns = { @JoinColumn(name = "post_id") },
+            inverseJoinColumns = { @JoinColumn(name = "comment_id") }
+    )
+    private List<Comment> comments = new ArrayList<>();
+
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Post(String title, String content, Long likes, User user) {
         this.title = title;
@@ -99,7 +116,14 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", likes=" + likes +
-
+                ", user=" + user +
+                ", comments=" + comments +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        Long likes = ((Post) o ).getLikes();
+        return (int) (likes-this.likes);
     }
 }

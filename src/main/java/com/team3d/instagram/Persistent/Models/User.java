@@ -44,16 +44,6 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "uid") }
     )
     private List<User> following = new ArrayList<>();
-
-
-    public List<Post> getPostsILiked() {
-        return postsILiked;
-    }
-
-    public void setPostsILiked(List<Post> postsILiked) {
-        this.postsILiked = postsILiked;
-    }
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "liked_posts",
@@ -61,6 +51,7 @@ public class User {
             inverseJoinColumns = { @JoinColumn(name = "pid") }
     )
     private List<Post> postsILiked = new ArrayList<>();
+
 
     public User(String username, String password, String email, String firstName, String lastName) {
         this.username = username;
@@ -71,6 +62,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public List<Post> getPostsILiked() {
+        return postsILiked;
+    }
+
+    public void setPostsILiked(List<Post> postsILiked) {
+        this.postsILiked = postsILiked;
     }
 
     public Long getId() {
@@ -156,4 +155,6 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
+
+
 }

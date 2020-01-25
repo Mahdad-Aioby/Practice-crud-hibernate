@@ -18,6 +18,6 @@
         <!-- Mapping -->
         <mapping class="com.team3d.instagram.Persistent.Models.Post"/>
         <mapping class="com.team3d.instagram.Persistent.Models.User"/>
-
+        <mapping class="com.team3d.instagram.Persistent.Models.Comment" />
     </session-factory>
 </hibernate-configuration>

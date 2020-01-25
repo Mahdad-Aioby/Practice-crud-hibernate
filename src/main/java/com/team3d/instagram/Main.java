@@ -2,15 +2,18 @@ package com.team3d.instagram;
 
 import com.team3d.instagram.Core.Shared.AuthenticationService;
 import com.team3d.instagram.Core.util.UserBuilder;
+import com.team3d.instagram.Domain.ServiceImplementation.AddCommentToPost;
 import com.team3d.instagram.Domain.ServiceImplementation.ShowAccountsPosts;
 import com.team3d.instagram.Domain.Services.*;
 import com.team3d.instagram.Persistent.DbContext.HibernateUtil;
+import com.team3d.instagram.Persistent.Models.Comment;
 import com.team3d.instagram.Persistent.Models.Post;
 import com.team3d.instagram.Persistent.Models.User;
 import com.team3d.instagram.Persistent.Models.UserInfo;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -79,6 +82,7 @@ public class Main {
                 System.out.println("10.follow someone");
                 System.out.println("11.unFollow someone");
                 System.out.println("12.show all posts");
+                System.out.println("13.show posts by like");
                 System.out.println("9.logout");
                 int choose = input.nextInt();
                 switch(choose){
@@ -139,20 +143,10 @@ public class Main {
                         break;
                     }
                     case 8:{
-                        System.out.println("Enter search field:");
-                        String field = input.next();
                         System.out.println("Enter search subject:");
                         String subject = input.next();
                         SearchAccount searchAccount = new com.team3d.instagram.Domain.ServiceImplementation.SearchAccount();
-                        UserInfo userInfo = new UserInfo();
-                        Function<User,UserInfo> infoFunction = user -> {
-                            userInfo.setFirstName(user.getFirstName());
-                            userInfo.setLastName(user.getLastName());
-                            userInfo.setUserName(user.getUsername());
-                            return userInfo;
-                        };
-                        List<User> users = searchAccount.search(field,subject);
-                        users.stream().map(infoFunction).forEach(System.out::println);
+                        System.out.println(searchAccount.search(subject));
                         break;
                     }
                     case 9:{
@@ -179,7 +173,7 @@ public class Main {
                     case 12:{
                         ShowAllPosts showAllPosts = new com.team3d.instagram.Domain.ServiceImplementation.ShowAllPosts();
                         showAllPosts.getAllPosts().stream().forEach(System.out::println);
-                        System.out.println("press 1 to like.if you want!");
+                        System.out.println("press 1 to like.2 to comment.");
                         int x = input.nextInt();
                         if(x==1) {
                             System.out.println("Enter post id:");
@@ -188,7 +182,23 @@ public class Main {
                             likePost.Like(pid);
                             System.out.println("liked");
                         }
+                        if(x==2){
+                            System.out.println("Enter post id:");
+                            Long pid = input.nextLong();
+                            System.out.println("Enter comment:");
+                            String commentString = input.next();
+                            Comment comment = new Comment(commentString,new Date());
+                            AddCommnetToPost addCommnetToPost = new AddCommentToPost();
+                            addCommnetToPost.Add(comment,pid);
+                            System.out.println("comment Added successfully");
+                        }
 
+                        break;
+                    }
+
+                    case 13:{
+                        ShowAllPosts showAllPosts = new com.team3d.instagram.Domain.ServiceImplementation.ShowAllPosts();
+                        showAllPosts.getAllPosts().stream().sorted(Post::compareTo).forEach(System.out::println);
                         break;
                     }
 

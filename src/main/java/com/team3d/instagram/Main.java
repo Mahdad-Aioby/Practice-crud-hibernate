@@ -80,12 +80,12 @@ public class Main {
                 System.out.println("6.show posts");
                 System.out.println("7.delete post");
                 System.out.println("8.search account");
-                System.out.println("9.show users posts");
+                System.out.println("9.show users posts by user id");
                 System.out.println("10.follow someone");
                 System.out.println("11.unFollow someone");
                 System.out.println("12.show all posts");
                 System.out.println("13.show posts by like");
-                System.out.println("9.logout");
+                System.out.println("14.logout");
                 int choose = input.nextInt();
                 switch(choose){
                     case 1:{
@@ -201,6 +201,11 @@ public class Main {
                     case 13:{
                         ShowAllPosts showAllPosts = new com.team3d.instagram.Domain.ServiceImplementation.ShowAllPosts();
                         showAllPosts.getAllPosts().stream().sorted(Post::compareTo).forEach(System.out::println);
+                        break;
+                    }
+                    case 14:{
+                        Logout logout = new com.team3d.instagram.Domain.ServiceImplementation.Logout();
+                        logout.logout();
                         break;
                     }
 
